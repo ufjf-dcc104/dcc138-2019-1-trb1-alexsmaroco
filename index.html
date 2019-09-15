@@ -25,26 +25,25 @@
         }
         var cena1 = new Scene({ctx: ctx, w: canvas.width, h: canvas.height});
         
-        var plataforma = new Sprite({color: "black", width: 32, height: 112, x: canvas.width/2, y: canvas.height-66});
+        var plataforma = new Sprite({color: "black", width: 32, height: 112, x: canvas.width/2, y: canvas.height-66, tipo: "plataforma", scene: cena1});
         var canhao = new Sprite({
-            color: "red", width: 16, height: 24, x: plataforma.x, y: canvas.height-112-24, angle: 180, minAngle: 120, maxAngle: 240});
+            color: "red", width: 16, height: 24, x: plataforma.x, y: canvas.height-112-24, angle: 0, minAngle: -60, maxAngle: 60, tipo: "pc", scene: cena1, comportar: porTeclasDirecionais(teclas)});
         cena1.adicionar(canhao);
         cena1.adicionar(plataforma);
+        cena1.init();
         
         function porTeclasDirecionais(teclas) {
             return function () {
-                if (teclas.esquerda) { this.va = -2; }
-                if (teclas.direita) { this.va = +2; }
-                if (teclas.esquerda === teclas.direita) { this.va = 0; }
-                if (teclas.cima) { this.vm = +120; }
-                if (teclas.baixo) { this.vm = -120; }
-                if (teclas.cima === teclas.baixo) { this.vm = 0; }
+                if (teclas.esquerda) { this.vang = -100; }
+                if (teclas.direita) { this.vang = 100; }
+                if (teclas.esquerda === teclas.direita) { this.vang = 0; }
                 if(teclas.espaco && this.cooldown<=0){
                     var tiro = new Sprite({
                         x: this.x, y: this.y,
-                        a: this.a-0.1+0.2*Math.random(),
-                        vm: 240, color:"green", w:4, h:4,
-                        props:{tipo: "tiro"}
+                        angle: this.angle-90,
+                        am: 150, g: 0,
+                        color:"green", width:6, height:6,
+                        tipo: "tiro"
                     });
                     this.scene.adicionar(tiro);
                     this.cooldown = 0.5;
