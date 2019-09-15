@@ -23,13 +23,16 @@
             baixo: 0,
             espaco: 0
         }
-        var cena1 = new Scene({ctx: ctx, w: canvas.width, h: canvas.height});
+
+        var img = new Image();
+        img.src = "./background/apocalipse.jpg";
+        var cena1 = new Scene({ctx: ctx, w: canvas.width, h: canvas.height, background: img});
         
         var plataforma = new Sprite({color: "black", width: 32, height: 112, x: canvas.width/2, y: canvas.height-66, tipo: "plataforma", scene: cena1});
         var canhao = new Sprite({
-            color: "red", width: 16, height: 24, x: plataforma.x, y: canvas.height-112-24, angle: 0, minAngle: -60, maxAngle: 60, tipo: "pc", scene: cena1, comportar: porTeclasDirecionais(teclas)});
-        cena1.adicionar(canhao);
-        cena1.adicionar(plataforma);
+            color: "red", width: 16, height: 24, x: plataforma.x, y: canvas.height-112-12, angle: 0, minAngle: -60, maxAngle: 60, tipo: "pc", scene: cena1, comportar: porTeclasDirecionais(teclas)});
+        cena1.adicionarSprite(canhao);
+        cena1.adicionarSprite(plataforma);
         cena1.init();
         
         function porTeclasDirecionais(teclas) {
@@ -45,7 +48,7 @@
                         color:"green", width:6, height:6,
                         tipo: "tiro"
                     });
-                    this.scene.adicionar(tiro);
+                    this.scene.addTiro(tiro);
                     this.cooldown = 0.5;
                 }
             }
@@ -93,7 +96,6 @@
             dt = (t - anterior) / 1000;
             cena1.passo(dt);
             anterior = t;
-            ctx.fillText(1/dt, 10,20);
             requestAnimationFrame(passo);
         }
 
