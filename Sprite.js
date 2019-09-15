@@ -23,6 +23,8 @@ function Sprite(params = {}) {
 Sprite.prototype = new Sprite();
 Sprite.prototype.constructor = Sprite;
 
+
+
 Sprite.prototype.desenhar = function (ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
@@ -35,17 +37,31 @@ Sprite.prototype.desenhar = function (ctx) {
     ctx.restore();
   };
 
+
 Sprite.prototype.mover = function (dt) {
-    this.a = this.a + this.va*dt;
-
-    this.vx = this.vm*Math.cos(this.a);
-    this.vy = this.vm*Math.sin(this.a);
-
+    this.vx = this.vx + this.ax*dt;
+    this.vy = this.vy + (this.ay+this.g)*dt;
     this.x = this.x + this.vx*dt;
     this.y = this.y + this.vy*dt;
-
-    this.cooldown = this.cooldown -dt;
+    if(this.minAngle && this.maxAngle) {
+      if(this.angle <= this.minAngle) this.angle = this.minAngle;
+      if(this.angle >= this.maxAngle) this.angle = this.maxAngle;
+      this.angle = this.angle + this.vang*dt;
+    }
+    if(this.cooldown>0) {
+      this.cooldown -= dt;
+    }
 }
+
+Sprite.prototype.moverAng = function (dt) {
+  //this.angle = this.angle + this.vang*dt;
+  this.ax = this.am*Math.cos(Math.PI*this.angle/180);
+  this.ay = this.am*Math.sin(Math.PI*this.angle/180);
+  this.vx = this.vx + this.ax*dt;
+  this.vy = this.vy + (this.ay+this.g)*dt;
+  this.x = this.x + this.vx*dt;
+  this.y = this.y + this.vy*dt;
+};
 
 Sprite.prototype.colidiuCom = function(alvo){
     if(alvo.x+alvo.w/2 < this.x-this.w/2) return false;
