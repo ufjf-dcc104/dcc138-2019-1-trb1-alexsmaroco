@@ -4,7 +4,8 @@ function Scene(params) {
         toRemove: [],
         ctx: null,
         w: 300,
-        h: 300
+        h: 300,
+        placar: 0
     }
     Object.assign(this, exemplo, params);
 }
@@ -15,13 +16,13 @@ Scene.prototype.constructor = Scene;
 Scene.prototype.init = function() {
     var hconst = 80;
     var h1 = 48+hconst*Math.random();
-    this.sprites.push(new Sprite({x: this.w*0.1, y: this.h-h1/2, vida: 100, width: 32, height: h1}));
+    this.sprites.push(new Sprite({x: this.w*0.1, y: this.h-h1/2, vida: 100, width: 32, height: h1, tipo: "predio"}));
     h1 = 48+hconst*Math.random();
-    this.sprites.push(new Sprite({x: this.w*0.3, y: this.h-h1/2, vida: 100, width: 32, height: h1}));
+    this.sprites.push(new Sprite({x: this.w*0.3, y: this.h-h1/2, vida: 100, width: 32, height: h1, tipo: "predio"}));
     h1 = 48+hconst*Math.random();
-    this.sprites.push(new Sprite({x: this.w*0.7, y: this.h-h1/2, vida: 100, width: 32, height: h1}));
+    this.sprites.push(new Sprite({x: this.w*0.7, y: this.h-h1/2, vida: 100, width: 32, height: h1, tipo: "predio"}));
     h1 = 48+hconst*Math.random();
-    this.sprites.push(new Sprite({x: this.w*0.85, y: this.h-h1/2, vida: 100, width: 32, height: h1}));
+    this.sprites.push(new Sprite({x: this.w*0.85, y: this.h-h1/2, vida: 100, width: 32, height: h1, tipo: "predio"}));
 }
 
 Scene.prototype.adicionar = function(sprite){
@@ -37,7 +38,9 @@ Scene.prototype.desenhar = function(){
 
 Scene.prototype.mover = function(dt){
     for(var i = 0; i<this.sprites.length; i++){
-        this.sprites[i].mover(dt);
+        if(this.sprites[i].tipo === "tiro") {
+            this.sprites[i].moverAng(dt);
+        } else this.sprites[i].mover(dt);
     }  
 };
 
@@ -76,18 +79,30 @@ Scene.prototype.checaColisao = function(){
 Scene.prototype.removeSprites = function () {
     for (var i = 0; i < this.toRemove.length; i++) {
         var idx = this.sprites.indexOf(this.toRemove[i]);
-        if(idx>=0){
+        if(idx>=0) {
             this.sprites.splice(idx,1);
         }
     }
     this.toRemove = [];
 };
 
+Scene.prototype.desenharInfo = function() {
+	this.ctx.fillText("Pontos: " + this.placar, 200,10);
+	this.ctx.fillText("Vida: ", 170,20);
+	for(var i = 0; i < this.sprites.length; i++) {
+        if(this.sprites[i].tipo === "predio") {
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText(" " + (i+1) + ": " + this.sprites[i].vida, 200+50*i, 20)
+        }
+	}
+}
+
 Scene.prototype.passo = function(dt){
     this.limpar();
-    // this.comportar();
-    // this.mover(dt);
+    this.comportar();
+    this.mover(dt);
     this.desenhar();
     // this.checaColisao();
     // this.removeSprites();
+    this.desenharInfo();
 }
