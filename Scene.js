@@ -12,6 +12,18 @@ function Scene(params) {
 Scene.prototype = new Scene();
 Scene.prototype.constructor = Scene;
 
+Scene.prototype.init = function() {
+    var hconst = 80;
+    var h1 = 48+hconst*Math.random();
+    this.sprites.push(new Sprite({x: this.w*0.1, y: this.h-h1/2, vida: 100, width: 32, height: h1}));
+    h1 = 48+hconst*Math.random();
+    this.sprites.push(new Sprite({x: this.w*0.3, y: this.h-h1/2, vida: 100, width: 32, height: h1}));
+    h1 = 48+hconst*Math.random();
+    this.sprites.push(new Sprite({x: this.w*0.7, y: this.h-h1/2, vida: 100, width: 32, height: h1}));
+    h1 = 48+hconst*Math.random();
+    this.sprites.push(new Sprite({x: this.w*0.85, y: this.h-h1/2, vida: 100, width: 32, height: h1}));
+}
+
 Scene.prototype.adicionar = function(sprite){
     this.sprites.push(sprite);
     sprite.scene = this;
@@ -73,9 +85,9 @@ Scene.prototype.removeSprites = function () {
 
 Scene.prototype.passo = function(dt){
     this.limpar();
-    this.comportar();
-    this.mover(dt);
+    // this.comportar();
+    // this.mover(dt);
     this.desenhar();
-    this.checaColisao();
-    this.removeSprites();
+    // this.checaColisao();
+    // this.removeSprites();
 }
