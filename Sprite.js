@@ -1,19 +1,19 @@
 function Sprite(params = {}) {
     var exemplo = {
+        g: 0,
         x: 0,
         y: 0,
         vx: 0,
         vy: 0,
-        h: 10,
-        w: 10,
-        a: 0,
-        va: 0,
-        vm: 0,
-        props : {},
-        cooldown: 0,
+        ax: 0,
+        ay: 0,
+        am: 0,
+        width: 32,
+        height: 32,
+        angle: 0,
+        vang: 0,
         color: "blue",
-        imune: 0,
-        atirando: 0,
+        cooldown: 0,
         comportar: undefined,
         scene: undefined
     }
@@ -22,27 +22,17 @@ function Sprite(params = {}) {
 Sprite.prototype = new Sprite();
 Sprite.prototype.constructor = Sprite;
 
-Sprite.prototype.desenhar = function(ctx) {
-    
+Sprite.prototype.desenhar = function (ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
-    ctx.strokeRect(-this.w/2, -this.h/2, this.w, this.h);
-    ctx.rotate(this.a);
+    ctx.rotate(this.angle*2*Math.PI/360);
     ctx.fillStyle = this.color;
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
-
-
-    ctx.beginPath();
-    ctx.moveTo(-this.w/2, -this.h/2);
-    ctx.lineTo(-this.w/2, +this.h/2);
-    ctx.lineTo(+this.w/2, 0);
-    ctx.closePath();
+    ctx.fillRect(-this.width/2, -this.height/2, this.width,this.height)
     ctx.fill();
-    ctx.stroke();
-
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
     ctx.restore();
-};
+  };
 
 Sprite.prototype.mover = function (dt) {
     this.a = this.a + this.va*dt;
