@@ -15,7 +15,8 @@ function Sprite(params = {}) {
         color: "blue",
         cooldown: 0,
         comportar: undefined,
-        scene: undefined
+        scene: undefined,
+        tipo: undefined
     }
     Object.assign(this, exemplo, params);
 }
