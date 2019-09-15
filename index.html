@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semana 04</title>
+    <title>Trb1</title>
     <script src="Sprite.js"></script>
     <script src="Scene.js"></script>
 </head>
@@ -23,6 +23,13 @@
             baixo: 0,
             espaco: 0
         }
+        var cena1 = new Scene({ctx: ctx, w: canvas.width, h: canvas.height});
+        
+        var plataforma = new Sprite({color: "black", width: 32, height: 112, x: canvas.width/2, y: canvas.height-66});
+        var canhao = new Sprite({
+            color: "red", width: 16, height: 24, x: plataforma.x, y: canvas.height-112-24, angle: 180, minAngle: 120, maxAngle: 240});
+        cena1.adicionar(canhao);
+        cena1.adicionar(plataforma);
         
         function porTeclasDirecionais(teclas) {
             return function () {
@@ -82,6 +89,7 @@
                     break;
             }
         });
+
         function passo(t) {
             dt = (t - anterior) / 1000;
             cena1.passo(dt);
@@ -89,6 +97,7 @@
             ctx.fillText(1/dt, 10,20);
             requestAnimationFrame(passo);
         }
+
         var dt, anterior = 0;
         requestAnimationFrame(passo);
     </script>
