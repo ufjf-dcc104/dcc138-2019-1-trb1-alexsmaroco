@@ -14,7 +14,7 @@
     <script>
         var canvas = document.querySelector("canvas");
         canvas.width = 600;
-        canvas.height = 480;
+        canvas.height = 700;
         var ctx = canvas.getContext("2d");
         var teclas = {
             esquerda: 0,
@@ -45,7 +45,7 @@
                     var tiro = new Sprite({
                         x: this.x, y: this.y,
                         angle: this.angle-90,
-                        am: 150,
+                        am: 250,
                         color:"green", width:8, height:6,
                         tipo: "tiro"
                     });
@@ -103,7 +103,7 @@
             } else {
                 ctx.fillStyle = "white";
                 ctx.font = "30px Georgia";
-                ctx.fillText("Game over! Pontuação final: " + cena1.placar, canvas.width/4, canvas.height/2);
+                ctx.fillText("Game over! Pontuação final: " + cena1.placar, 20, canvas.height/2);
             }
             anterior = t;
             requestAnimationFrame(passo);
