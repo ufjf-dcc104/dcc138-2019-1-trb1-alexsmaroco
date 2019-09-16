@@ -34,6 +34,7 @@
         cena1.adicionarSprite(canhao);
         cena1.adicionarSprite(plataforma);
         cena1.init();
+
         
         function porTeclasDirecionais(teclas) {
             return function () {
@@ -44,8 +45,8 @@
                     var tiro = new Sprite({
                         x: this.x, y: this.y,
                         angle: this.angle-90,
-                        am: 150, g: 0,
-                        color:"green", width:6, height:6,
+                        am: 150,
+                        color:"green", width:8, height:6,
                         tipo: "tiro"
                     });
                     this.scene.addTiro(tiro);
@@ -94,7 +95,16 @@
 
         function passo(t) {
             dt = (t - anterior) / 1000;
-            cena1.passo(dt);
+            if(cena1.predios.length > 0) {
+                if(cena1.qtdMeteoros === 0) {
+                    cena1.proximoLevel();
+                }
+                cena1.passo(dt);
+            } else {
+                ctx.fillStyle = "white";
+                ctx.font = "50px Georgia";
+                ctx.fillText("Game over! Pontuação final: " + cena1.placar, canvas.width/2, canvas.height/2);
+            }
             anterior = t;
             requestAnimationFrame(passo);
         }
