@@ -43,6 +43,7 @@ Sprite.prototype.mover = function (dt) {
     this.vy = this.vy + (this.ay+this.g)*dt;
     this.x = this.x + this.vx*dt;
     this.y = this.y + this.vy*dt;
+
     if(this.minAngle && this.maxAngle) {
       if(this.angle <= this.minAngle) this.angle = this.minAngle;
       if(this.angle >= this.maxAngle) this.angle = this.maxAngle;
@@ -64,11 +65,11 @@ Sprite.prototype.moverAng = function (dt) {
 };
 
 Sprite.prototype.colidiuCom = function(alvo){
-    if(alvo.x+alvo.w/2 < this.x-this.w/2) return false;
-    if(alvo.x-alvo.w/2 > this.x+this.w/2) return false;
+    if(alvo.x+alvo.width/2 < this.x-this.width/2) return false;
+    if(alvo.x-alvo.width/2 > this.x+this.width/2) return false;
 
-    if(alvo.y+alvo.h/2 < this.y-this.h/2) return false;
-    if(alvo.y-alvo.h/2 > this.y+this.h/2) return false;
+    if(alvo.y+alvo.height/2 < this.y-this.height/2) return false;
+    if(alvo.y-alvo.height/2 > this.y+this.height/2) return false;
 
     return true;
 }
