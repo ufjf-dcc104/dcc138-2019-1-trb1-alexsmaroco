@@ -105,8 +105,8 @@ Scene.prototype.limpar = function(){
 
 
 // Verifica e trata possíveis colisões
-Scene.prototype.checaColisao = function(){
-    for(var i = this.meteoros.length-1; i >= 0; i--) {
+Scene.prototype.checaColisao = function() {
+    for(var i = 0; i < this.meteoros.length; i++) {
         for(var k = 0; k < this.predios.length; k++) {
             if(this.meteoros[i].colidiuCom(this.predios[k])) {
                 this.predios[k].vida-= 25*this.meteoros[i].size;
@@ -116,13 +116,14 @@ Scene.prototype.checaColisao = function(){
                 this.meteoros.splice(i, 1);
             }
         }
-        for(var j = this.tiros.length-1; j >= 0; j--) {
-            if(this.meteoros[i].colidiuCom(this.tiros[j])) {
+        for(var j = 0; j < this.tiros.length; j++) {
+            if(this.meteoros[i] && this.meteoros[i].colidiuCom(this.tiros[j])) {
                 this.meteoros.splice(i, 1);
                 this.tiros.splice(j, 1);
                 this.placar++;
             }
         }
+
     }
 };
 
@@ -132,7 +133,7 @@ Scene.prototype.desenharInfo = function() {
     this.ctx.fillStyle = "white";
     this.ctx.font = "12px Georgia";
     this.ctx.fillText("Level: " + this.level, 0,10);
-    this.ctx.fillText("Meteoros restantes: " + this.qtdMeteoros, 80,10);
+    this.ctx.fillText("Meteoros caindo/avistados: " + this.meteoros.length + "/" + this.qtdMeteoros, 80,10);
     this.ctx.fillText("Pontos: " + this.placar, 0,25);
 	for(var i = 0; i < this.predios.length; i++) {
         //this.ctx.fillText(" " + this.predios[i].color + ": " + this.predios[i].vida, 120+70*i, 25);
@@ -177,7 +178,7 @@ Scene.prototype.spawnMeteoro = function() {
 }
 
 // Remove objetos fora da area do jogo
-Scene.prototype.clearOOB = function() {
+Scene.prototype.removeOOB = function() {
     for(var i = 0; i < this.tiros.length; i++) {
         if(this.tiros[i].x < -100 || this.tiros[i].y < -100 || this.tiros[i] > this.w+100) {
             this.tiros.splice(i, 1);
@@ -191,7 +192,7 @@ Scene.prototype.clearOOB = function() {
 }
 
 Scene.prototype.passo = function(dt) {
-    this.clearOOB();
+    this.removeOOB();
     this.limpar();
     this.comportar();
     this.spawnMeteoro();
